@@ -34,11 +34,14 @@ void main(List<String> args) {
         // Get path file name
         String fileName = e.path;
         // Get extension of file
-        String exT = p.extension(fileName);
+        String ext = p.extension(fileName);
         while (true) {
+          // Check if ext == 'ext' => break
+          if(ext == '.exe') break;
           // Create random number
           int nameNew = randomNum(min: 1, max: 99999);
           String fileNameNew = '${valueArgs["folder"]}\\$nameNew$exT';
+          // Check file exist
           if (!File(fileNameNew).existsSync()) {
             final resultFile = File(fileName).renameSync(fileNameNew);
             // Show file name new
