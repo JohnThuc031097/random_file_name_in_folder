@@ -18,7 +18,7 @@ void main(List<String> args) {
   // Init Args
   listOpt['folder'] = Directory.current.path;
   listOpt['min'] = '1';
-  listOpt['max'] = '99999';
+  listOpt['max'] = '999999';
   parser = initArgs(listOpt);
   valueArgs = parser.parse(args);
 
