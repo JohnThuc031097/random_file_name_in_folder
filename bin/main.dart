@@ -64,7 +64,6 @@ void main(List<String> args) {
       }
     }
   }
-  exit(-1);
 }
 
 ArgParser initArgs(Map<String, String> listOpt) {
