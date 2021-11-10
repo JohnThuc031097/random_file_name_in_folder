@@ -14,19 +14,29 @@ void main(List<String> args) {
   Map<String, String> listOpt = <String, String>{};
   ArgParser? parser;
   ArgResults? valueArgs;
+  String folderCrr = Directory.current.path;
+  String min = "1";
+  String max = "999999";
 
   // Init Args
-  listOpt['folder'] = Directory.current.path;
-  listOpt['min'] = '1';
-  listOpt['max'] = '999999';
+  listOpt['folder'] = folderCrr;
+  listOpt['min'] = min;
+  listOpt['max'] = max;
   parser = initArgs(listOpt);
   valueArgs = parser.parse(args);
 
+  // Check Arg
+  if (int.parse(valueArgs['min']) < int.parse(valueArgs['max'])) {
+    min = valueArgs['min'];
+    max = valueArgs['max'];
+  }
+  folderCrr = valueArgs['folder'].toString();
+
   // Show Args
-  print(
-      '[Args]\n - folder: ${valueArgs['folder']}\n - Min: ${valueArgs['min']}\n - Max: ${valueArgs['max']}\n\n');
+  print('[Input Args]\n - folder: $folderCrr\n - Min: $min\n - Max: $max\n');
+
   // Get all file in folder
-  final listFile = getListFile(pathFolder: valueArgs['folder']);
+  final listFile = getListFile(pathFolder: folderCrr);
   if (listFile.isEmpty) {
     // Error Folder
     print('[Error] Folder not found!');
@@ -41,8 +51,8 @@ void main(List<String> args) {
           // Check if ext == 'ext' => break
           if (ext == '.exe') break;
           // Create random number
-          int nameNew = randomNum(min: 1, max: 99999);
-          String fileNameNew = '${valueArgs["folder"]}\\$nameNew$ext';
+          int nameNew = randomNum(min: int.parse(min), max: int.parse(max));
+          String fileNameNew = '$folderCrr\\$nameNew$ext';
           // Check file exist
           if (!File(fileNameNew).existsSync()) {
             final resultFile = File(fileName).renameSync(fileNameNew);
@@ -68,10 +78,7 @@ ArgParser initArgs(Map<String, String> listOpt) {
 }
 
 List<FileSystemEntity> getListFile({String pathFolder = ''}) {
-  if (pathFolder != '' && Directory(pathFolder).existsSync()) {
-    return Directory(pathFolder).listSync().toList();
-  }
-  return Directory.current.listSync().toList();
+  return Directory(pathFolder).listSync().toList();
 }
 
 int randomNum({int min = 1, int max = 100}) {
