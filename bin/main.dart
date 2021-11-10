@@ -5,16 +5,18 @@ import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
 
 void main(List<String> args) {
+  /*
   if (args.isEmpty) {
     print('[Error]: Missing Args!');
     exit(-1);
   }
+  */
   Map<String, String> listOpt = <String, String>{};
   ArgParser? parser;
   ArgResults? valueArgs;
 
   // Init Args
-  listOpt['folder'] = '';
+  listOpt['folder'] = Directory.current.path;
   listOpt['min'] = '1';
   listOpt['max'] = '99999';
   parser = initArgs(listOpt);
@@ -37,10 +39,10 @@ void main(List<String> args) {
         String ext = p.extension(fileName);
         while (true) {
           // Check if ext == 'ext' => break
-          if(ext == '.exe') break;
+          if (ext == '.exe') break;
           // Create random number
           int nameNew = randomNum(min: 1, max: 99999);
-          String fileNameNew = '${valueArgs["folder"]}\\$nameNew$exT';
+          String fileNameNew = '${valueArgs["folder"]}\\$nameNew$ext';
           // Check file exist
           if (!File(fileNameNew).existsSync()) {
             final resultFile = File(fileName).renameSync(fileNameNew);
